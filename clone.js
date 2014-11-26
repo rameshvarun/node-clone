@@ -48,11 +48,11 @@ if (typeof module === 'object')
  *    (optional - defaults to parent prototype).
 */
 
+var counter = 0;
+
 function clone(parent, circular, depth, prototype) {
-  // maintain two arrays for circular references, where corresponding parents
-  // and children have the same index
-  var allParents = [];
-  var allChildren = [];
+  // maintain cache of already cloned objects, to deal with circular references
+  var children = {};
 
   var useBuffer = typeof Buffer != 'undefined';
 
@@ -100,13 +100,13 @@ function clone(parent, circular, depth, prototype) {
     }
 
     if (circular) {
-      var index = allParents.indexOf(parent);
-
-      if (index != -1) {
-        return allChildren[index];
+      if (parent.clone_id && children[parent.clone_id]) {
+        return children[parent.clone_id];
       }
-      allParents.push(parent);
-      allChildren.push(child);
+
+      parent.clone_id = counter;
+      children[parent.clone_id] = child;
+      counter++;
     }
 
     for (var i in parent) {
