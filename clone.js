@@ -46,7 +46,7 @@ if (typeof module === 'object')
  *    a particular depth. (optional - defaults to Infinity)
  * @param `prototype` - sets the prototype to be used when cloning an object.
  *    (optional - defaults to parent prototype).
-*/
+ */
 
 function clone(parent, circular, depth, prototype) {
   // maintain cache of already cloned objects, to deal with circular references
@@ -111,14 +111,6 @@ function clone(parent, circular, depth, prototype) {
     }
 
     for (var i in parent) {
-      var attrs;
-      if (proto) {
-        attrs = Object.getOwnPropertyDescriptor(proto, i);
-      }
-      
-      if (attrs && attrs.set == null) {
-        continue;
-      }
       child[i] = _clone(parent[i], depth - 1);
     }
 
