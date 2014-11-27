@@ -130,7 +130,6 @@ function clone(parent, circular, depth, prototype) {
   // Remove the temporary clone id's
   for(var i in parents) delete parents[i].clone_id;
   for(var i in children) delete children[i].clone_id;
-  console.log(cloned)
 
   return cloned;
 }
